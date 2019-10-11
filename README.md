@@ -1,24 +1,35 @@
-# README
+# Banking App case
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+A simple banking app. 
 
-Things you may want to cover:
+## Features
 
-* Ruby version
+### Create a new user:
+ 
+```
+User.create(first_name: "Konstantinos", last_name: "Kalpakloglou", email: "kkalpakloglou@yahoo.com", password: "********")
+```
 
-* System dependencies
+### Create a new account:
+ 
+```
+Account.create(user: my-user)
+```
 
-* Configuration
+### Credit an account:
 
-* Database creation
+```
+Transaction.create(transaction_type: :credit, amount: 100, account: random-account)
+```
 
-* Database initialization
+### Transactions History:
 
-* How to run the test suite
+```
+http://localhost:3000/accounts/:id/transactions
+```
 
-* Services (job queues, cache servers, search engines, etc.)
+### Transfer Money:
 
-* Deployment instructions
-
-* ...
+```
+http://localhost:3000/money_transfers
+```
