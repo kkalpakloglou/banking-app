@@ -1,0 +1,24 @@
+.limiter
+  .container-login100
+    .wrap-login100
+      .container
+        %h2 Transactions
+        %p= "account: ##{@account.number}"
+        %table.table
+          %thead
+            %tr
+              %th.text-center Transaction Code
+              %th.text-center Transaction Date
+              %th.text-center Amount
+              %th.text-center New Balance
+          %tbody
+            - @transactions.each do |transaction|
+              - pre_fix_amount = transaction.transaction_type == 'debit' ? '-' : '+'
+              %tr
+                %td.text-center= "##{transaction.code}"
+                %td.text-center= "#{transaction.created_at}"
+                %td.text-center= pre_fix_amount + " #{transaction.amount.format}"
+                %td.text-center= transaction.updated_balance.format
+        %p= paginate @transactions
+
+                

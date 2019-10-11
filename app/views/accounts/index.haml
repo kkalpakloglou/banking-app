@@ -1,0 +1,20 @@
+.limiter
+  .container-login100
+    .wrap-login100
+      .container
+        %h2 My accounts
+        %p This is a list of all your active accounts
+        %table.table
+          %thead
+            %tr
+              %th.text-center Account Number
+              %th.text-center Balance
+              %th.text-center Actions
+          %tbody
+            - @accounts.each do |account|
+              %tr
+                %td.text-center="##{account.number}"
+                %td.text-center 10$
+                %td.text-center
+                  = link_to "Transactions", transactions_account_path(account), class: "btn btn-outline-info text-blue"
+                  = link_to "Transfer Money", new_money_transfer_path(sender_id: account.id), class: "btn btn-outline-success text-green"

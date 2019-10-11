@@ -1,0 +1,25 @@
+.limiter
+  .container-login100
+    .wrap-login100
+      .login100-pic
+        = image_tag('login')
+      = form_for(resource, as: resource_name, url: session_path(resource_name), class: 'login100-form') do |f|
+        %span.login100-form-title= "Member Login"
+        
+        .m-b-10
+          - if notice
+            %p.alert.alert-success= notice
+          - if alert
+            %p.alert.alert-danger= alert
+        .wrap-input100
+          = f.email_field :email, autofocus: true, autocomplete: "email", class: 'input100'
+          %span.focus-input100
+          %span.symbol-input100
+            %i.fa.fa-envelope
+        .wrap-input100
+          = f.password_field :password, autocomplete: "current-password", class: 'input100'
+          %span.focus-input100
+          %span.symbol-input100
+            %i.fa.fa-lock
+        .container-login100-form-btn
+          = f.submit "Log in", class: 'login100-form-btn', value: 'Login'

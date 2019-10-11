@@ -1,0 +1,25 @@
+.limiter
+  .container-login100
+    .wrap-login100
+      .container
+        %h2 Transfer Money
+        %p Transfer money to another account, now.
+        - if flash[:error].present?
+          %p.alert.alert-danger= flash[:error]
+
+        = form_for @money_transfer do |f|
+          = f.hidden_field :sender_id
+          .input-group.mb-3
+            .input-group-prepend
+              %span.input-group-text #
+            = f.text_field :account_number, class: "form-control", placeholder: "Friend's Account Number"
+
+          .input-group.mb-3
+            .input-group-prepend
+              %span.input-group-text $
+            = f.text_field :amount, class: "form-control", type: "number", placeholder: "Amount"
+          .input-group.mb-3
+            .input-group-prepend
+            = f.text_field :description, class: "form-control", placeholder: "Reason for Transfer"
+          .float-right= f.submit "Submit", class: "btn btn-primary"
+
