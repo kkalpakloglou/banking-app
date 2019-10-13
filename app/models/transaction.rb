@@ -12,21 +12,15 @@ class Transaction < ApplicationRecord
 
   # Validations
   validates :account_id, :amount_cents, :amount_currency, :transaction_type, presence: true
-  validate :sufficient_balance, on: :create
-
+  
   # Callbacks
   before_validation :generate_code, on: [:create]
   after_create :update_balance
 
   private
 
-  def sufficient_balance
-    errors.add :base, :insufficient_balance if transaction_type == "debit" && account.balance < amount
-  end
-
   def update_balance
-    self.updated_balance = account.balance
-    self.save!
+    Transaction.unscoped { self.update_attribute(:updated_balance, account.balance) }
   end
 
   def generate_code

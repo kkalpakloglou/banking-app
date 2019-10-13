@@ -11,10 +11,18 @@ class Account < ApplicationRecord
   before_validation :generate_number, on: [:create]
 
   def balance
-    Money.new(transactions.credit.sum(:amount_cents) - transactions.debit.sum(:amount_cents))
+    Money.new(sum_of_credit_transactions - sum_of_debit_transactions)
   end
 
   private
+
+  def sum_of_credit_transactions
+    transactions.credit.sum(:amount_cents)
+  end
+
+  def sum_of_debit_transactions
+    transactions.debit.sum(:amount_cents)
+  end
 
   def generate_number
     self.number ||= loop do
