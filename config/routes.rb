@@ -2,11 +2,10 @@ Rails.application.routes.draw do
   devise_for :users
 
   devise_scope :user do
-    root to: "accounts#index"
-    get "sign_in", to: "devise/sessions#new"
+    get 'sign_in', to: 'devise/sessions#new'
   end
 
-  root to: "accounts#index"
+  root to: 'accounts#index'
 
   resources :accounts, only: [:index] do
     get :transactions, on: :member

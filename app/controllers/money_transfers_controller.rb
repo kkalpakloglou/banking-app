@@ -15,7 +15,7 @@ class MoneyTransfersController < ApplicationController
       begin
         MoneyTransfer.transaction do
           @money_transfer.save!
-          
+
           @sender.transactions.debit.create!(amount: @money_transfer.amount, money_transfer_id: @money_transfer.id)
           @receiver.transactions.credit.create!(amount: @money_transfer.amount, money_transfer_id: @money_transfer.id)
 
@@ -33,8 +33,14 @@ class MoneyTransfersController < ApplicationController
   end
 
   private
+
   def set_sender
-    @sender = current_user.accounts.find (params[:sender_id] || permitted_params[:sender_id])
+    if action_name == 'new'
+      raise ArgumentError, 'Account is not provided' if params[:sender_id].nil?
+      @sender = current_user.accounts.find params[:sender_id]
+    else
+      @sender = current_user.accounts.find permitted_params[:sender_id]
+    end
   end
 
   def permitted_params

@@ -12,21 +12,18 @@ class Transaction < ApplicationRecord
 
   # Validations
   validates :account_id, :amount_cents, :amount_currency, :transaction_type, presence: true
-  
+
   # Callbacks
-  before_validation :generate_code, on: [:create]
+  before_validation :set_transaction_code, on: [:create]
   after_create :update_balance
 
   private
 
   def update_balance
-    Transaction.unscoped { self.update_attribute(:updated_balance, account.balance) }
+    Transaction.unscoped { update_attribute(:updated_balance, account.balance) }
   end
 
-  def generate_code
-    self.code ||= loop do
-      random_code = SecureRandom.hex(8).upcase
-      break random_code unless Transaction.exists?(code: random_code)
-    end
+  def set_transaction_code
+    self.code ||= GenerateRandomCodeService.perform(self.class, :code)
   end
 end
